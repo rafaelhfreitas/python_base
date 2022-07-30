@@ -1,0 +1,3 @@
+Bruno,3,12
+Masa,4,10
+Rafael,1,3

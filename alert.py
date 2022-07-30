@@ -26,15 +26,26 @@ arguments = {
 
 keys = arguments.keys()
 
-for key in keys:
-    try:
-        arguments[key] = float(input(f"Qual a {key} ?").strip())
-    except ValueError:
-        log.error(f"{key.capitalize()} inválida")
-        sys.exit(1)
+while True:
+    arguments_size = len(arguments.values())
+    filled_size = len([value for value in arguments.values() if value is not None])
 
-temp = arguments["temperatura"]
-umidade = arguments["umidade"]
+    if arguments_size == filled_size:
+        break
+
+    for key in keys:
+        if arguments[key] is not None:
+            continue
+
+        try:
+            arguments[key] = float(input(f"Qual a {key} ?").strip())
+        except ValueError:
+            log.error(f"{key.capitalize()} inválida")
+            sys.exit(1)
+
+# temp = arguments["temperatura"]
+# umidade = arguments["umidade"]
+temp, umidade = arguments.values()
 
 if temp > 45:
     print("ALERTA !!!🥵 Perigo calor extremo")
