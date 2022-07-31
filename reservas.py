@@ -30,7 +30,7 @@ try:
         booking_client_name, room_code, days = line.strip().split(",")
         bookings[int(room_code)] = {
             "name": booking_client_name,
-            "days": days,
+            "days": int(days),
         }
 except FileNotFoundError:
     logging.error("Arquivo reservas não existe")
@@ -91,4 +91,4 @@ booking_price = room_price * days
 with open("reservas.txt", "a") as file_:
     file_.write(f"{name},{room},{days}\n")
 
-print(f"{name} você escolheu o quarto {room_description} e vai custar: R$: {booking_price:.2f}")
+print(f"{name} você escolheu o quarto {room_description} e vai custar: R$: {booking_price:.,2f}")
