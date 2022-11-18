@@ -54,6 +54,7 @@ print(another_value)
 print(value1, value2, value3)
 value1, *_ = another_function(2,4,6)
 print(value1)
+print(_)
 
 value1, *rest = another_function(2,4,6)
 print(rest)
