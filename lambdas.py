@@ -27,3 +27,26 @@ print(sorted(names, key=lambda text: text.count("i")))
 print(list(reversed(sorted(names, key=lambda text: text.count("i")))))
 
 print(list(filter(lambda name: name[0].lower() == "b", names)))
+
+
+print(list(map(lambda name: "Hello " + name, names)))
+
+
+# operation = input("Operation: [sum, mul, div, sub]:").strip()
+# n1 = int(input("n1:").strip())
+# n2 = int(input("n2:").strip())
+
+# operations = {
+#     "sum": lambda a, b: a + b,
+#     "mul": lambda a, b: a * b,
+#     "div": lambda a, b: a // b,
+#     "sub": lambda a, b: a - b,
+# }
+
+
+# print(f"O resultado é: {operations[operation](n1,n2)}")
+
+
+(lambda: 1 + 1)()
+
+(lambda a: a + 10)(1)
