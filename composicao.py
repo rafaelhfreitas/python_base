@@ -1,3 +1,5 @@
+"""Print the names with starts with letter B"""
+
 names = ["Rafael","Henrique", "Freitas", "Juliano", "Klicia", "Mayara", "Rodolfo"]
 
 for name in names:
@@ -5,8 +7,8 @@ for name in names:
         print(name)
 
 
-def starts_with_r(text):
-    #return text[0].lower() == 'r'
-    return text.startswith(('r', 'R'))
+# def starts_with_r(text):
+#     #return text[0].lower() == 'r'
+#     return text.startswith(('r', 'R'))
 
-print(*list(filter(starts_with_r, names)))
+print(*list(filter(lambda text: text.startswith(('r', 'R')), names)), sep="\n")

@@ -16,6 +16,7 @@ __license__ = "Unlicense"
 
 import sys
 import logging
+from typing import Dict
 
 log = logging.Logger("alert")
 
@@ -24,24 +25,31 @@ arguments = {
     "umidade": None,
 }
 
-keys = arguments.keys()
+# TODO: Mover para modulo de utilidades
 
-while True:
-    arguments_size = len(arguments.values())
-    filled_size = len([value for value in arguments.values() if value is not None])
+def is_completely_filled(dict_of_inputs: Dict) -> bool:
+    """Returns a bool telling if a dict is completely filled"""
+    arguments_size = len(dict_of_inputs)
+    filled_size = len([value for value in dict_of_inputs.values() if value is not None])
+    return arguments_size == filled_size 
 
-    if arguments_size == filled_size:
-        break
 
-    for key in keys:
-        if arguments[key] is not None:
+def read_inputs_for_dict(dict_of_info):
+    """Reads information for a dict from user input."""
+    for key in dict_of_info.keys():
+        if dict_of_info[key] is not None:
             continue
 
         try:
-            arguments[key] = float(input(f"Qual a {key} ?").strip())
+            dict_of_info[key] = float(input(f"Qual a {key} ?").strip())
         except ValueError:
             log.error(f"{key.capitalize()} inválida")
-            sys.exit(1)
+            break
+
+
+
+while not is_completely_filled(arguments):
+    read_inputs_for_dict(arguments)
 
 # temp = arguments["temperatura"]
 # umidade = arguments["umidade"]
