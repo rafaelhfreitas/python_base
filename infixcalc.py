@@ -34,66 +34,83 @@ import sys
 import os
 
 from datetime import datetime
-
 arguments = sys.argv[1:]
 
-if not arguments:
-    operation = input("Choose the operation (sum, sub, mul, div): ")
-    n1 = input("Input the first number: ")
-    n2 = input("Input the second number: ")
-    arguments = [operation, n1, n2]
-elif len(arguments) != 3:
-    print("Number of arguments invalid")
-    print("ex: `um 5 5`")
-    sys.exit(1)
 
-operation, *nums = arguments
-print(f"{nums=}")
-valid_operations = ("sum", "sub", "mul", "div")
+valid_operations = {
+    "sum": lambda a, b: a + b,
+    "sub": lambda a, b: a - b,
+    "mul": lambda a, b: a * b,
+    "div": lambda a, b: a // b,
+}
 
-if operation not in valid_operations:
-    print("Operation invalid")
-    print(f"Acceptable values for operation: {valid_operations}")
-
-validated_nums = []
-for num in nums:
-    if not num.replace(".", "").isdigit():
-        print(f"Invalid number {num}")
-        sys.exit(2)
-    if "." in num:
-        num = float(num)
-    else:
-        num = int(num)
-    validated_nums.append(num)
-try:
-    n1, n2 = validated_nums
-except ValueError as e:
-    print(f"[ERROR] {str(e)}")
-    sys.exit(1)
-
-# TODO: Usar dict de funções
-if operation == "sum":
-    result = n1 + n2
-elif operation == "sub":
-    result = n1 - n2
-elif operation == "mul":
-    result = n1 * n2
-elif operation == "div":
-    result = n1 / n2
-
-
-print(f"O resultado da operação é {result}")
+#valid_operations = ("sum", "sub", "mul", "div")
 
 path = os.curdir
 filepath = os.path.join(path, "infixcalc.log")
 user = os.getenv("USER","anonymous")
 
-try:
-    with open(filepath, "a") as file_:
-        file_.write(f"Date: {datetime.now().isoformat()} / User: {user} / Operation: {operation} / params: {n1}, {n2} / result: {result}\n")
-except PermissionError as e:
-    print(f"[ERROR] {str(e)}")
-    sys.exit(1)
+while True:
+
+    #Validation
+    if not arguments:
+        operation = input("Choose the operation (sum, sub, mul, div): ")
+        n1 = input("Input the first number: ")
+        n2 = input("Input the second number: ")
+        arguments = [operation, n1, n2]
+    elif len(arguments) != 3:
+        print("Number of arguments invalid")
+        print("ex: `um 5 5`")
+        sys.exit(1)
+
+    operation, *nums = arguments
+    print(f"{nums=}, {operation=}")
+
+    if operation not in valid_operations:
+        print("Operation invalid")
+        print(f"Acceptable values for operation: {valid_operations.keys()}")
+
+    validated_nums = []
+    for num in nums:
+        if not num.replace(".", "").isdigit():
+            print(f"Invalid number {num}")
+            sys.exit(2)
+        if "." in num:
+            num = float(num)
+        else:
+            num = int(num)
+        validated_nums.append(num)
+    try:
+        n1, n2 = validated_nums
+    except ValueError as e:
+        print(f"[ERROR] {str(e)}")
+        sys.exit(1)
+
+    # TODO: Usar dict de funções
+    result = valid_operations[operation](n1,n2)
+
+    # if operation == "sum":
+    #     result = n1 + n2
+    # elif operation == "sub":
+    #     result = n1 - n2
+    # elif operation == "mul":
+    #     result = n1 * n2
+    # elif operation == "div":
+    #     result = n1 / n2
+
+    print(f"O resultado da operação é {result}")
+
+    try:
+        with open(filepath, "a") as log:
+            log.write(f"Date: {datetime.now().isoformat()} / User: {user} / Operation: {operation} / params: {n1}, {n2} / result: {result}\n")
+    except PermissionError as e:
+        print(f"[ERROR] {str(e)}")
+        sys.exit(1)
+
+    arguments = None
+
+    if input("Press enter to continue or any key to exit"):
+        break
 
 # Minha solução
 # if args:

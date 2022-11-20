@@ -8,18 +8,36 @@ import logging
 
 log = logging.Logger("errors")
 
+# def try_to_open_a_file(filepath, attempts=1) -> list:
+#     """Tries to open a file, if error, retries n times"""
+#     for attempt in range(1,attempts +1):
+#         try:
+#             return open(filepath).readlines()
+#         except FileNotFoundError as e:
+#             log.error("ERRO: %s",e)
+#             time.sleep(1)
+#         else:
+#             print("Success")
+#         finally:
+#             print("Execute this always")
+#     return []
+
+
 def try_to_open_a_file(filepath, attempts=1) -> list:
     """Tries to open a file, if error, retries n times"""
-    for attempt in range(1,attempts +1):
-        try:
-            return open(filepath).readlines()
-        except FileNotFoundError as e:
-            log.error("ERRO: %s",e)
-            time.sleep(1)
-        else:
-            print("Success")
-        finally:
-            print("Execute this always")
+    if attempts > 999:
+        raise ValueError("Attempts cannot ne above 999")
+    try:
+        return open(filepath).readlines()
+    except FileNotFoundError as e:
+        log.error("ERRO: %s",e)
+        time.sleep(2)
+        if attempts > 1:
+            return try_to_open_a_file(filepath, attempts=attempts -1)
+    else:
+        print("Success")
+    finally:
+        print("Execute this always")
     return []
 
 
