@@ -74,11 +74,29 @@ def sum(a: Union[int, float, str], b: Union[int, float, str]):
 # print(f"The total is R${total:.2f}")
 
 
+
+# class Person:
+#     def __init__(self, pk: str, name: str, points: int):
+#         self.pk = pk
+#         self.name = name
+#         self.points = points
+
+
+# def function(data: Person):
+#     ...
+
+
+# dados = Person(pk="rafael@rafael.com", name="Rafael", points=100)
+
+# function(dados)
+
+from dataclasses import dataclass
+
+@dataclass
 class Person:
-    def __init__(self, pk: str, name: str, points: int):
-        self.pk = pk
-        self.name = name
-        self.points = points
+    pk: str
+    name: str
+    points: int = 100
 
 
 def function(data: Person):
