@@ -36,7 +36,7 @@ while True:
                 case [steps]:
                     turtle.forward(float(steps))
         case ["turn", *options]:
-            match angle:
+            match options:
                 case [angle]:
                     turtle.right(float(angle))
                 case _:
